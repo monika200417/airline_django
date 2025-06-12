@@ -1,0 +1,17 @@
+{% extends "flights/layout.html" %}
+{% block body %}
+<div class="container my-4">
+    <h2 class="mb-3">All Flights</h2>
+
+    <ul class="list-group">
+        {% for flight in flights %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Flight #{{ flight.id }} — {{ flight.origin }} ✈ {{ flight.destination }}
+                <a href="{% url 'flight' flight.id %}" class="btn btn-sm btn-outline-primary">View</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">No flights available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

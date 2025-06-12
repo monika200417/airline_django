@@ -1,0 +1,45 @@
+{% extends "flights/layout.html" %}
+{% block body %}
+<div class="container my-4">
+    <h2 class="mb-3">Flight #{{ flight.id }}</h2>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Origin:</strong> {{ flight.origin }}</li>
+        <li class="list-group-item"><strong>Destination:</strong> {{ flight.destination }}</li>
+        <li class="list-group-item"><strong>Duration:</strong> {{ flight.duration }}</li>
+    </ul>
+
+    <h4>Passengers</h4>
+    <ul class="list-group mb-3">
+        {% for passenger in passengers %}
+            <li class="list-group-item">{{ passenger }}</li>
+        {% empty %}
+            <li class="list-group-item text-muted">No passengers</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Add Passenger</h4>
+    <form action="{% url 'book' flight.id %}" method="post" class="row g-3 align-items-center mb-3">
+        {% csrf_token %}
+        <div class="col-auto">
+            <select name="passenger" class="form-select">
+                {% for passenger in non_passengers %}
+                    <option value="{{ passenger.id }}">{{ passenger }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-primary" value="Add">
+        </div>
+    </form>
+
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <a href="{% url 'index' %}" class="btn btn-secondary mt-2">Back to Home</a>
+</div>
+{% endblock %}
